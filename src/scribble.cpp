@@ -1,9 +1,9 @@
 
 #include "scribble.h"
-#include "ofMain.h"
+//#include "ofMain.h"
 
 scribble::scribble(){
-    ofLog() << "scribble OBJECT created ";
+//    ofLog() << "scribble OBJECT created ";
     //ofEnableAlphaBlending();
 
 
@@ -11,37 +11,53 @@ scribble::scribble(){
 
 
 scribble::~scribble(){
-    ofLog() << "scribble OBJECT DELETED ";
+//    ofLog() << "scribble OBJECT DELETED ";
 
 }
 
 
-void scribble::setup(){
+void scribble::setup(int _seed){
 
-    width = 1.0;
+    seed = _seed;
+    color = ofColor(1.0f,0.5f,0.5f,1.0f);
+
+    width = 5.0f;
     float mySize = 1000.0f;
     glLineWidth(width);
 
-    float stepSize = 0.2;
+    float stepSize = 0.1f;
 
 
-    for(int i=0; i < 100; i++){
+    float offsetx = ofRandom(0.0f,100000.0f);
+    float offsety = ofRandom(0.0f,100000.0f);
+    float offsetz = ofRandom(0.0f,100000.0f);
+    for(int i=1; i < 100; i++){
 
 
-        float noiseX = (ofNoise(float(i)*stepSize)*2 - 1)*mySize;
-        float noiseY = (ofNoise(float(i+22)*stepSize)*2 - 1)*mySize;
-        float noiseZ = (ofNoise(float(i+33)*stepSize)*2 - 1)*mySize;
+        float noiseX = (ofNoise(float((i+ offsetx)* stepSize) ) *2.0f-1.0f)*mySize;
+        float noiseY = (ofNoise(float((i+101.0f+ offsety)* stepSize)   )*2.0f-1.0f)*mySize;
+        float noiseZ = (ofNoise(float((i+21.0f+ offsetz)* stepSize)   )*2.0f-1.0f)*mySize;
+//        float noiseY = (ofNoise(float((i+33)*stepSize))*2 - 1)*mySize;
+//        float noiseZ = (ofNoise(float((i+22)*stepSize + offset))*2 - 1)*mySize;
         ofPoint pt = ofPoint(noiseX,noiseY,noiseZ);
         line.addVertex(pt);
     }
 
 
-    ofLog()<< "---> " << this;
+//    ofLog()<< "---> " << this;
 }
 
 void scribble::setWidth(float _width){
 
     width = _width;
+}
+
+void scribble::setColor(ofFloatColor _color){
+    color = _color;
+}
+
+void scribble::setAlpha(float _alpha){
+    color.a = _alpha;
 }
 
 
@@ -50,7 +66,9 @@ void scribble::setWidth(float _width){
 //
 //}
 void scribble::draw(){
-    glColor4f(0.0f,1.0f,0.5f,0.2f);
+
+
+    glColor4f(color.r,color.g,color.b,color.a);
     glLineWidth(width);
 //        glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT);
 //

@@ -8,19 +8,20 @@ public:
     scribble();
     ~scribble();
 
-    void setup();
+    void setup(int _seed);
     void draw();
 
     void setWidth(float _width);
-    //void setPosition(ofVec3f _pos);
+    void setColor(ofFloatColor _color);
+    void setAlpha(float _alpha);
 
+    ofFloatColor color;
 
-
+    int seed;
     float width;
     ofPolyline line;
-
     ofPath path;
-    float x = 2.0f;
+
 };
 
 #endif // SCRIBBLE_H_INCLUDED
